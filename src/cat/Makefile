@@ -12,7 +12,7 @@ s21_cat: $(OBJ)
 	$(CC) $(LFLAGS) $(OBJ) -o $(OUT)
 	rm -f $(OBJ)
 
-tests: rebuild
+test: rebuild
 	sh $(TESTFILE)
 	rm -f $(OUT)
 
@@ -29,7 +29,7 @@ cat.o: cat.c
 	$(CC) $(FLAGS) cat.c
 
 clang_format:
-	cp ../../materials/.clang-format .clang-format
+	cp ../../materials/linters/.clang-format .clang-format
 	clang-format -i *.c *.h
 	rm .clang-format
 

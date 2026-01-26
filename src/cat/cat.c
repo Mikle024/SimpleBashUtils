@@ -56,7 +56,6 @@ void output(OPER *flags, char *line, int *lineNumber, int *emptyLine,
       else if (flags->b && flags->e && line[0] == '\n') {
         printf("      \t");
       }
-
 #endif
 
       else if (flags->n && !(flags->b)) {

@@ -12,7 +12,7 @@ s21_grep: $(OBJ)
 	$(CC) $(LFLAGS) $(OBJ) -o $(OUT)
 	rm -f $(OBJ)
 
-tests: rebuild
+test: rebuild
 	sh $(TESTFILE)
 	rm -f $(OUT)
 
@@ -29,7 +29,7 @@ errorProcessingGrep.o: errorProcessingGrep.c
 	$(CC) $(FLAGS) errorProcessingGrep.c
 
 clang_format:
-	cp ../../materials/.clang-format .clang-format
+	cp ../../materials/linters/.clang-format .clang-format
 	clang-format -i *.c *.h
 	rm .clang-format
 
