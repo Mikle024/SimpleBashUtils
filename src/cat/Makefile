@@ -12,7 +12,7 @@ s21_cat: $(OBJ)
 	$(CC) $(LFLAGS) $(OBJ) -o $(OUT)
 	rm -f $(OBJ)
 
-tests: rebuild
+test: rebuild
 	sh $(TESTFILE)
 	rm -f $(OUT)
 
