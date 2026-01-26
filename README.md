@@ -1,9 +1,18 @@
 # Simple Bash Utils
 
-Этот проект был выполнен в рамках основного обучения в **School 21** от сбера. <img src="materials/images/heart_21_x10.gif" alt="drawing" width="20" height="20"/>
+[![CI](https://github.com/Mikle024/C_SimpleBashUtils/actions/workflows/ci.yml/badge.svg)](https://github.com/Mikle024/C_SimpleBashUtils/actions/workflows/ci.yml)
 
-Он включает в себя реализацию утилит `cat` и `grep`, которые используются для работы с текстовыми файлами в Unix-подобных системах.
-Утилиты реализованы на языке **С** с использованием стандартов **C11** и **POSIX.1-2017**.
+
+![C](https://img.shields.io/badge/language-C-blue.svg)
+![Build](https://img.shields.io/badge/build-Makefile-orange.svg)
+![OS](https://img.shields.io/badge/OS-Unix/Linux-success.svg)
+
+The project was written from task S21. <img src="materials/images/heart_21_x10.gif" alt="drawing" width="20" height="20"/>
+
+![C_SimpleBashUtils.png](materials/images/C_SimpleBashUtils.png)
+
+Проект включает в себя реализацию утилит `cat` и `grep`, которые используются для работы с текстовыми файлами в Unix-подобных системах.
+Утилиты реализованы на языке **C** с использованием стандартов **C11** и **POSIX.1-2017**.
 Проект предназначен для демонстрации навыков работы с системными утилитами и структурного программирования.
 
 Необходимое установленное ПО для запуска данного проекта на вашем ПК:
@@ -107,9 +116,6 @@
    make
 
 ## Тестирование
-
-Для тестирования утилит убедитесь, что у вас установлены все необходимые зависимости.
-В проекте предусмотрены интеграционные тесты, которые проверяют функциональность команд.
 
 1. Для запуска тестов используйте:
 
