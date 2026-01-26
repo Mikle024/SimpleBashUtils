@@ -1,0 +1,102 @@
+name: CI/CD
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main", "develop"]
+  workflow_dispatch:
+
+jobs:
+  build_job:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create artifacts directory
+        run: mkdir -p artifacts
+
+      - name: Build s21_cat
+        run: |
+          cd src/cat
+          make clean
+          make s21_cat
+
+      - name: Build s21_grep
+        run: |
+          cd src/grep
+          make clean
+          make s21_grep
+
+      - name: Copy binaries to artifacts
+        run: |
+          cp src/cat/s21_cat src/grep/s21_grep artifacts/
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: s21_builds
+          path: artifacts/
+          retention-days: 30
+
+  clang_format_job:
+    name: Code Style
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format
+
+      - name: Check code style
+        run: |
+          cp materials/linters/.clang-format src/cat/
+          cp materials/linters/.clang-format src/grep/
+          echo "Running clang-format check..."
+          if clang-format -n --Werror --verbose src/cat/*.c src/grep/*.c; then
+            echo "Clang-format check passed."
+          else
+            echo "clang-format check failed."
+            exit 1
+          fi
+
+  integration_test_job:
+    name: Integration Tests
+    needs: [build_job, clang_format_job]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: s21_builds
+          path: artifacts
+
+      - name: Restore permissions
+        run: |
+          chmod +x artifacts/s21_cat
+          chmod +x artifacts/s21_grep
+          cp artifacts/s21_cat src/cat/
+          cp artifacts/s21_grep src/grep/
+
+      - name: Run integration tests for s21_cat
+        run: |
+          echo "Running integration tests for s21_cat..."
+          cd src/cat
+          make test || { echo "Integration tests for s21_cat failed."; exit 1; }
+
+      - name: Run integration tests for s21_grep
+        run: |
+          echo "Running integration tests for s21_grep..."
+          cd src/grep
+          make test || { echo "Integration tests for s21_grep failed."; exit 1; }
+
+      - name: Success message
+        run: echo "All integration tests passed successfully."
